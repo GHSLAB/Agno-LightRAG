@@ -18,6 +18,7 @@ from app.functions import (
 )
 from app.knowledge import product_knowledge, shared_knowledge
 from app.learning import shared_learning
+from app.lightrag import search_lightrag
 from app.notes import get_shared_notes_tools
 from app.settings import default_model
 from app.tools import (
@@ -32,6 +33,7 @@ from db import get_postgres_db
 registry = Registry(
     name="AgentOS Registry",
     tools=[
+        search_lightrag,
         *get_agno_docs_tools(),
         *get_parallel_tools(),
         *get_shared_notes_tools(),

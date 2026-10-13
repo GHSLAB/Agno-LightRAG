@@ -1,6 +1,13 @@
 manifest:
   # --- Agents ---
 
+  lightrag-knowledge:
+    description: "Queries indexed LightRAG documents and answers with source references."
+    quick_prompts:
+      - "查询知识库：当前平台使用什么模型？请列出来源。"
+      - "检索文档并解释 AgentOS 与 LightRAG 的分工。"
+      - "资料中是否说明生产部署的认证要求？"
+
   platform-builder:
     description: "Creates agents, teams, workflows, and schedules using the AgentOS Studio."
     quick_prompts:

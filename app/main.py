@@ -13,6 +13,7 @@ from agno.utils.log import log_info
 
 from agents.builder import platform_builder
 from agents.engineer import platform_engineer
+from agents.lightrag_knowledge import lightrag_knowledge
 from agents.manager import platform_manager
 from app.knowledge import product_knowledge, shared_knowledge
 from app.registry import registry
@@ -98,6 +99,7 @@ agent_os = AgentOS(
     authorization_config=AuthorizationConfig(user_isolation=True),
     # MCP clients can run agno directly
     mcp=MCPConfig(
+        default_tools=True,
         tools=[
             agno_team.as_tool(
                 name="agno",
@@ -113,7 +115,7 @@ agent_os = AgentOS(
     lifespan=lifespan,
     db=get_postgres_db(),
     knowledge=[shared_knowledge, product_knowledge],
-    agents=[platform_builder, platform_manager, platform_engineer],
+    agents=[lightrag_knowledge, platform_builder, platform_manager, platform_engineer],
     teams=[agno_team],
     workflows=[deployment_check, run_evals],
     interfaces=interfaces,
