@@ -92,15 +92,18 @@ def _check_runtime() -> CheckResult:
     return _warn("Runtime", f"Unexpected RUNTIME_ENV={runtime_env!r}; expected 'dev' or 'prd'.")
 
 
-def _check_openai_key() -> CheckResult:
-    """The one env var whose absence every other check survives."""
-    if getenv("OPENAI_API_KEY"):
-        return _pass("OpenAI key", "Set — models, knowledge embeddings, and the registry's media tools.")
-    return _fail(
-        "OpenAI key",
-        "OPENAI_API_KEY is not set: every model call fails, knowledge cannot embed, and the "
-        "registry drops its image and speech tools with no warning.",
-    )
+def _check_model_keys() -> CheckResult:
+    """Check the chat model key and the template's optional OpenAI features."""
+    minimax_key = getenv("MINIMAX_API_KEY")
+    if not minimax_key or minimax_key == "XXX":
+        return _fail("Model key", "Set MINIMAX_API_KEY to call the MiniMax-M3 chat model.")
+    if not getenv("OPENAI_API_KEY"):
+        return _warn(
+            "Model key",
+            "MiniMax is configured. OPENAI_API_KEY is unset, so knowledge embeddings and "
+            "OpenAI image and speech tools are unavailable.",
+        )
+    return _pass("Model key", "MiniMax chat, OpenAI knowledge embeddings, and media tools are configured.")
 
 
 def _check_agentos_url() -> CheckResult:
@@ -366,7 +369,7 @@ async def deployment_check_step(_step_input: StepInput) -> StepOutput:
     checks = [
         _check_database(),
         _check_runtime(),
-        _check_openai_key(),
+        _check_model_keys(),
         _check_agentos_url(),
         await _check_mcp(),
         _check_slack_config(),

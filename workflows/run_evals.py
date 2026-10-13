@@ -11,6 +11,7 @@ from os import getenv
 from agno.workflow.step import Step, StepInput, StepOutput
 from agno.workflow.workflow import Workflow
 
+from app.settings import default_model
 from db import get_postgres_db
 
 # Headroom per case for the setup and teardown hooks agno runs outside the per-case clock.
@@ -155,6 +156,7 @@ async def run_evals_step(_step_input: StepInput) -> StepOutput:
                 tag=tag,
                 default_timeout=case_timeout_seconds,
                 db=eval_db,
+                judge_model=default_model(),
                 on_case_start=lambda case: started.append(case.name),
                 on_case_end=lambda case, result: finished.append(result),
             ),
