@@ -46,7 +46,7 @@ cd agentos
 
 # Configure credentials
 cp example.env .env
-# Open .env and set OPENAI_API_KEY
+# Open .env and replace MINIMAX_API_KEY=XXX with your MiniMax key
 
 # Run the platform on docker
 docker compose up -d --build
@@ -233,7 +233,8 @@ Because the repo is managed by coding agents, it moves fast. Run `/review-and-im
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `OPENAI_API_KEY` | yes | none | OpenAI key for models and embeddings. |
+| `MINIMAX_API_KEY` | yes | `XXX` placeholder | MiniMax key for the default MiniMax-M3 chat model. Replace the placeholder before starting agents. |
+| `OPENAI_API_KEY` | for knowledge and media | none | The template's knowledge embeddings and optional image/speech tools still use OpenAI. Chat agents use MiniMax. |
 | `RUNTIME_ENV` | no | `prd` | `dev` disables JWT. `compose.yaml` sets it to `dev` for local; `compose.prod.yaml` sets `prd` — never hand-set `dev` on a production host, or the platform serves unauthenticated. |
 | `JWT_VERIFICATION_KEY` | prd | none | Public key from os.agno.com. Required when `RUNTIME_ENV=prd`, unless `JWT_JWKS_FILE` is set. |
 | `JWT_JWKS_FILE` | prd | none | Path to a JWKS file; alternative to `JWT_VERIFICATION_KEY` for production JWT verification. |
@@ -252,6 +253,10 @@ Because the repo is managed by coding agents, it moves fast. Run `/review-and-im
 | `WAIT_FOR_DB` | no | `False` | If `True`, the entrypoint blocks on the DB before starting. Compose sets this. |
 
 ## Learn more
+
+- [Local LightRAG integration](docs/lightrag.md) — Docker service, MiniMax-M3, local BGE-M3 embeddings,
+  and the LightRAG Knowledge agent.
+- [Database tables](docs/db.md) — the tables used by this platform.
 
 - [Agno documentation](https://docs.agno.com?utm_source=github&utm_medium=template&utm_campaign=agentos-docker)
 - [AgentOS introduction](https://docs.agno.com/agent-os/introduction?utm_source=github&utm_medium=template&utm_campaign=agentos-docker)
