@@ -1,0 +1,32 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/GHSLAB/Agno-LightRAG
+options:
+  commits:
+    # filters:
+    #   Type:
+    #     - feat
+    #     - fix
+    #     - perf
+    #     - refactor
+  commit_groups:
+    title_maps:
+      feat: 新增功能
+      fix: 问题修复
+      perf: 性能优化
+      refactor: 代码重构
+      docs: 文档更新
+      test: 测试
+      build: 构建系统
+      ci: 持续集成
+      chore: 工程维护
+  header:
+    pattern: "^(\\w*)\\:\\s(.*)$"
+    pattern_maps:
+      - Type
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE
