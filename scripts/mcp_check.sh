@@ -55,7 +55,7 @@ import sys
 import time
 
 from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import create_mcp_http_client, streamable_http_client
 
 ORANGE = "\033[38;5;208m"
 RED = "\033[31m"
@@ -75,7 +75,10 @@ def step(text: str) -> None:
 
 
 async def run_check(headers: dict | None, auth_note: str) -> None:
-    async with streamablehttp_client("http://localhost:8000/mcp", headers=headers, timeout=180) as (read, write, _):
+    async with (
+        create_mcp_http_client(headers=headers, timeout=180) as http_client,
+        streamable_http_client("http://localhost:8000/mcp", http_client=http_client) as (read, write),
+    ):
         async with ClientSession(read, write) as session:
             await session.initialize()
             step(f"Handshake — {auth_note}")
